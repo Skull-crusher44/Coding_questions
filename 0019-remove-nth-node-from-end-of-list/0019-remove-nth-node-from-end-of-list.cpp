@@ -11,28 +11,30 @@
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode*curr=head;
-        int count=0;
-        while(curr)
-        {
-            count++;
-            curr=curr->next;
-        }
-        int from_start=count-n-1;
-        if(from_start==-1)
-        {
-            
-            head=head->next;
-            return head;
-        }
-        curr=head;
-        while(from_start--)
-        {
-            curr=curr->next;
-        }
+        ListNode*slow=head;
+        ListNode*fast=head;
         
-        curr->next=curr->next->next;
+        //The fast-moving pointer will initially be exactly N nodes ahead of the slow-moving pointer.
+
+        for(int i=0;i<n;i++)
+        {
+            fast=fast->next;
+        }
+        // if fast==NULL means we have to remove 1 st node 
+        if(fast==NULL)
+        return head->next;
         
+        //After which, both of them will move one step at a time until fast pointer reaches last node 
+        while(fast->next)
+        {
+            slow=slow->next;
+            fast=fast->next;
+        }
+        //When the fast pointer reaches the last node, i.e., the L-th node,
+        // the slow is guaranteed to be at the (L-N)-th node, where L is the total length of the linked list.
+        ListNode*temp=slow->next;
+        slow->next=slow->next->next;
+        delete (temp);
         return head;
     }
 };
