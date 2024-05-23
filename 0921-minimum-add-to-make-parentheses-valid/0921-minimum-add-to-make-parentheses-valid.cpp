@@ -2,20 +2,20 @@ class Solution {
 public:
     int minAddToMakeValid(string s) {
 
-        stack<char> st;
+        int left=0;             //store no of opening parenthesis
         int count=0;            //store no of closing parenthesis
         for (int i = 0; i < s.length(); i++) {
             char ch = s[i];
             if (ch == '(') 
-                st.push(ch);
+                left++;
             else {
-                if (st.empty())
+                if (left==0)
                     count++;
                 else
-                    st.pop(); 
+                    left--; 
                 }
         }
-        int no_of_open_parenth=st.size();
+        int no_of_open_parenth=left;
         return (count+no_of_open_parenth);
         
     }
