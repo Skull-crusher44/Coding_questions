@@ -4,16 +4,16 @@ public:
         stack<char>a,b;
         for(char c:s)
         {
-            if(c=='#')
+            if(c=='#'&&!a.empty())
             a.pop();
-            else
+            else if(c!='#')
             a.push(c);
         }
         for(char c:t)
         {
-            if(c=='#')
+            if(c=='#'&&!b.empty())
             b.pop();
-            else
+            else if(c!='#')
             b.push(c);
         }
         if(a.size()!=b.size())
