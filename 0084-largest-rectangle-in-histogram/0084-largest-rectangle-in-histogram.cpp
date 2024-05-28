@@ -136,36 +136,47 @@ private:
     
 public:
     int largestRectangleArea(vector<int>& heights) {
-       int n=heights.size();
         stack<int>s;
         int ans=0;
-        int index;
-        for(int i=0;i<n;i++)
+        for(int i=0;i<heights.size();i++)
         {
             while(!s.empty()&&heights[s.top()]>heights[i])
             {
-                 index=s.top();
+                int next_small=i;
+                int height=heights[s.top()];
                 s.pop();
-                if(!s.empty())
+                int area;
+                if(s.empty())
                 {
-                    ans=max(ans,heights[index]*(i-s.top()-1));
+                    area= height*(next_small);
                 }
                 else
-                ans=max(ans,heights[index]*i);
+                {
+                int prev_small=s.top();
+                area=height*(next_small-prev_small-1);
+                }
+                ans=max(ans,area);
             }
             s.push(i);
         }
-        while(!s.empty())
-        {
-            index=s.top();
-            s.pop();
-            if(!s.empty())
-            {      
-                ans=max(ans,heights[index]*(n-s.top()-1));
-            }
-            else
-            ans=max(ans,heights[index]*n);
-        }
+            while(!s.empty())
+            {
+                int next_small=heights.size();
+                int height=heights[s.top()];
+                s.pop();
+                int area;
+                if(s.empty())
+                {
+                    area= height*(next_small);
+                }
+                else
+                {
+                int prev_small=s.top();
+                 area=height*(next_small-prev_small-1);
+                }
+                ans=max(ans,area);
+            }       
+        
         return ans;
     }   
 };
