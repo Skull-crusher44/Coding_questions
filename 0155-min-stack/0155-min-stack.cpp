@@ -30,49 +30,132 @@
 // };
 
 //solution 2=> Here we putting element then minimum element from stack 
+// class MinStack {
+// public:
+// stack<int>s;
+// int minEle;
+//     MinStack() {
+        
+//     }
+    
+//     void push(int val) {   //input stack=> 8 9 2 3 1 5 
+//         if(!s.empty())   // min elememts=> 8 8 2 2 1 1
+//            minEle=min(s.top(),val);//input elem        ↓   ↓   ↓   ↓   ↓   ↓
+//            else                               // s=> 8 8|9 8|2 2|3 2|1 1|5 1
+//            minEle=val;            //min elements       ↑   ↑   ↑   ↑   ↑   ↑                 
+           
+//            s.push(val);           
+//            s.push(minEle);
+//     }
+    
+//     void pop() {
+//            s.pop();
+//            s.pop();
+         
+//     }
+    
+//     int top() {
+//         int top_min=s.top();
+//         s.pop();
+//         int top=s.top();
+//         s.push(top_min);
+//         return top;
+        
+//     }
+    
+//     int getMin() {
+//            return s.top();
+//     }
+// };
+
+
+
+
+
+
+
+
+//solution 3 => 
+//if we have to store two int values at single int space then we use modulo concept
+// if we have to push element then we push diff elemnent which stores both
+// 1 pushed element 2 min element in below stack  
+// if pushed element=25 and min ele =2 => 25*100+2=2502
+// we retreive pushed elements => 2502/100 & min element= 2502%100
+// 100 is decided by range of elements
+// class MinStack {
+// public:
+//     stack<int>s;
+//     MinStack() {
+        
+//     }
+    
+//     void push(int val) {
+//         if(s.empty())
+//         {
+//             s.push(val*100+val);
+//         }
+//         else
+//         s.push(val*100+min(val,s.top()%100));
+//     }
+    
+//     void pop() {
+//         s.pop();
+//     }
+    
+//     int top() {
+//         return (s.top()/100);
+//     }
+    
+//     int getMin() {
+//         return s.top()%100;
+//     }
+// };
+
+
+
+//solutin 4
+//https://www.youtube.com/live/1Fyc-2SNYO0?si=cNWPn7FDriL3ZpNJ
+
 class MinStack {
 public:
-stack<int>s;
-int minEle;
+    stack<long>s;
+    long  minEle;
     MinStack() {
         
     }
     
     void push(int val) {
-        if(!s.empty())
-           minEle=min(s.top(),val);
-           else
-           minEle=val;
-           
-           s.push(val);           
-           s.push(minEle);
+        if(s.empty())
+        {
+            s.push(val);
+            minEle=val;
+        }
+        else if(val<=minEle)
+        {
+            s.push(2ll*val-minEle);
+            minEle=val;
+        }
+        else
+        s.push(val);
     }
     
     void pop() {
-           s.pop();
-           s.pop();
-         
+        if(s.top()<minEle)
+        {
+            minEle=2*minEle-s.top();
+        }
+        s.pop();
     }
     
     int top() {
-        int top_min=s.top();
-        s.pop();
-        int top=s.top();
-        s.push(top_min);
-        return top;
-        
+        if(s.top()<minEle)
+        {
+            return minEle;
+        }
+        return s.top();
     }
     
     int getMin() {
-           return s.top();
+        return minEle;
     }
 };
-
-/**
- * Your MinStack object will be instantiated and called as such:
- * MinStack* obj = new MinStack();
- * obj->push(val);
- * obj->pop();
- * int param_3 = obj->top();
- * int param_4 = obj->getMin();
- */
