@@ -13,6 +13,7 @@ public:
                 {
                     s.pop();
                     flag=false;
+                    break;
                 }
                 else if(s.top() <= -asteroids[i])
                 s.pop();
