@@ -16,6 +16,7 @@ public:
         vector<vector<int>>ans;
         if(root==NULL)
         return ans;
+        int value=1;
         queue<TreeNode*>q;
         q.push(root);
         TreeNode*temp;
@@ -24,20 +25,24 @@ public:
         while(!q.empty())
         {
             vector<int>v;
-            temp = q.front();
-            if(temp->left)
-                {
-                    q.push(temp->left);
-                    v.push_back(temp->left->val);
-                }
-            if(temp->right)
-                {
-                    q.push(temp->right);
-                    v.push_back(temp->right->val);
-                }
-                if(v.size()!=0)
-                ans.push_back(v);
-            q.pop();
+            while(value--)
+            { 
+                    temp = q.front();
+                    if(temp->left)
+                        {
+                            q.push(temp->left);
+                            v.push_back(temp->left->val);
+                        }
+                    if(temp->right)
+                        {
+                            q.push(temp->right);
+                            v.push_back(temp->right->val);
+                        }
+                    q.pop();
+            }
+            if(v.size()!=0)
+            ans.push_back(v);
+            value=q.size();
         }
         return ans;
     }
