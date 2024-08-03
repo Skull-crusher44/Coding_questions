@@ -7,7 +7,28 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+class Solution {
+public:
 
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(!root)return NULL;
+        if(root==p||root==q)
+        return root;
+        TreeNode*left=lowestCommonAncestor(root->left,p,q);
+        TreeNode*right=lowestCommonAncestor(root->right,p,q);
+        if(right&&left)
+        return root;
+        if(left&&!right)
+        return left;
+        if(right&&!left)
+        return right;
+        else
+        return NULL;
+    }
+};
+
+
+/*
 //MY SOLUTION 
 class Solution {
 public:
@@ -132,4 +153,4 @@ Back to Node 3, Combine Results:
 
 Left subtree of 3 returned 5.
 Right subtree of 3 returned NULL.
-Since only the left subtree returned a non-NULL result, return node 5 as the LCA of nodes 5 and 4.
+Since only the left subtree returned a non-NULL result, return node 5 as the LCA of nodes 5 and 4.*/
