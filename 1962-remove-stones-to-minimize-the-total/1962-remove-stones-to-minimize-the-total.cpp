@@ -14,7 +14,7 @@ public:
             int max_stone=q.top();
             q.pop();
             remove+=max_stone/2;
-            q.push(max_stone-remove);
+            q.push(max_stone-max_stone/2);
         }
         return sum-remove;
     }
