@@ -1,19 +1,48 @@
 class Solution {
 public:
     int minWays(vector<int>&coins, int amount, int n ){
-        //base case
-        if(amount==0)return 0;
-        else if(n==0) return INT_MAX-1;
-        int notTaken = minWays(coins, amount, n-1);
-        int taken = INT_MAX-1;
-        if(coins[n-1]<=amount)
-            taken = 1 + minWays(coins, amount-coins[n-1], n);
-        return min(taken,notTaken);
+        // Base cases
+        if (amount == 0) return 0;
+        if (n == 0) return INT_MAX;
+
+        int notTaken = minWays(coins, amount, n - 1);
+        int taken = INT_MAX;
+
+        if (coins[n - 1] <= amount) {
+            int res = minWays(coins, amount - coins[n - 1], n);
+            if (res != INT_MAX) {
+                taken = 1 + res;
+            }
+        }
+
+        return min(taken, notTaken);
     }
     
     int coinChange(vector<int>& coins, int amount) {
         int n= coins.size();
-        int ans = minWays(coins,amount,n);
-        return ans==INT_MAX-1?-1:ans;    
+        vector<vector<int>>dp(n,vector<int>(amount+1,INT_MAX));
+
+        //intialize first row considering first element when i=0 (coins[0]) with 0<=j<=amount
+        // 0 1 2 3 4 5 6 7 8 9 10 11
+        // 0 1 2 3 4 5 6 7 8 9 10 11
+        for(int i=0;i<=amount;i++){
+            if(i%coins[0]==0){
+                dp[0][i]=i/coins[0];
+            }
+        }
+        for(int i =1 ; i<n ; i++)
+        {
+            for(int j=0;j<=amount;j++){
+                int notTaken = dp[i-1][j];
+                int taken=INT_MAX;
+                if(coins[i]<=j){
+                    taken = dp[i][j-coins[i]];
+                    if(taken!=INT_MAX)taken+=1;
+                }
+                dp[i][j] = min(taken,notTaken);
+            }
+        } 
+        
+        return dp[n-1][amount]==INT_MAX?-1:dp[n-1][amount];    
     }
 };
